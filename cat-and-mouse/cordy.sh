@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+WORKING_DIR="/cs/work/scratch/carodrig/distributed-systems/cat-and-mouse"
 SECONDS_PER_LINE=1
 
 who_found_mouse=""
@@ -15,7 +15,7 @@ function send_cat() {
 	action=$3
 	task_time=$4
 	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H ${host_list[$((next_host))]} -i "cd cat-and-mouse; sh chase_cat.sh $action $cat_name $task_time"
+	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; sh chase_cat.sh $action $cat_name $task_time"
 }
 
 function send_cat_attack() {
