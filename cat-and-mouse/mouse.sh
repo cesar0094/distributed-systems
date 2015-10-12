@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PORT=8081
-# PORT=$(cat nc_port_number)
+# PORT=8081
+PORT=$(cat nc_port_number)
 
 state="chilling"
 

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 LISTY_LOCATION=$(cat listy_location)
-HOSTNAME="localhost"
-# HOSTNAME=$(hostname)
+# HOSTNAME="localhost"
+HOSTNAME=$(hostname)
 
 MY_NAME=$2
 ACTION=$1
 TASK_TIME=$3
-MOUSE_PORT=8081
+MOUSE_PORT=$(cat nc_port_number)
 LISTY_PORT=$(cat nc_port_number)
 TIMEOUT=1
 
