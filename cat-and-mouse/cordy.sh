@@ -2,6 +2,7 @@
 
 WORKING_DIR="/cs/work/scratch/carodrig/distributed-systems/cat-and-mouse"
 SECONDS_PER_LINE=1
+PORT=$(cat nc_port_number)
 
 who_found_mouse=""
 
@@ -65,11 +66,17 @@ function caught_mouse() {
 
 function terminate() {
 	kill $LISTY_PID
-	kill $JAZZY_PID
 	exit 0
 }
 
 trap terminate INT
+
+process_in_port=$(lsof -i :$PORT)
+
+if [ "$process_in_port" == "" ]; then
+	echo "$process_in_port is using port"
+	exit
+fi
 
 # cmsg should be empty.
 echo "" > cmsg
