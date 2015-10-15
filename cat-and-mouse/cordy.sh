@@ -74,7 +74,8 @@ trap terminate INT
 process_in_port=$(lsof -i :$PORT)
 
 if [[ "$process_in_port" != "" ]]; then
-	echo "$process_in_port is using port"
+	process_in_port=$(echo "$process_in_port" | grep nc | awk '{ print $2 }')
+	echo "$process_in_port is using port $PORT."
 	exit
 fi
 
