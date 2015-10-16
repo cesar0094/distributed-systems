@@ -16,7 +16,7 @@ function send_cat() {
 	action=$3
 	task_time=$4
 	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; sh chase_cat.sh $action $cat_name $task_time"
+	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name $task_time"
 }
 
 function send_cat_attack() {
@@ -80,10 +80,10 @@ if [[ "$process_in_port" != "" ]]; then
 fi
 
 # cmsg should be empty.
-echo "" > cmsg
+rm cmsg; touch cmsg
 
 # start listy
-sh listy.sh &
+./listy.sh &
 LISTY_PID=$!
 
 explore_next_host S Jazzy
