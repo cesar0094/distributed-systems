@@ -86,8 +86,8 @@ rm cmsg; touch cmsg
 ./listy.sh &
 LISTY_PID=$!
 
-explore_next_host S Jazzy
-explore_next_host S Catty
+explore_next_host S Jazzy &
+explore_next_host S Catty &
 
 # now we listen to cmsg file to see what to do next
 
