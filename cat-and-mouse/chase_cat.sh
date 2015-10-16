@@ -19,17 +19,17 @@ message=$(echo "MEOW $MY_NAME" | nc $HOSTNAME $MOUSE_PORT -w $TIMEOUT)
 
 echo "I $MY_NAME got message: '$message'"
 
-if [[ $message == "" ]]; then
+if [[ "$message" == "" ]]; then
 	# if we didn't find the mouse
 	echo "N $HOSTNAME $MY_NAME" | nc $LISTY_LOCATION $LISTY_PORT
 fi
 
-if [[ $message == "Gotme" ]]; then
+if [[ "$message" == "Gotme" ]]; then
 	# if we got the mouse
 	echo "G $HOSTNAME $MY_NAME" | nc $LISTY_LOCATION $LISTY_PORT
 fi
 
-if [[ $message == "Foundme" ]]; then
+if [[ "$message" == "Foundme" ]]; then
 	# if we found the mouse
 	echo "F $HOSTNAME $MY_NAME" | nc $LISTY_LOCATION $LISTY_PORT
 fi
