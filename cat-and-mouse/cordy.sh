@@ -61,12 +61,13 @@ function explore_next_host() {
 
 function caught_mouse() {
 	echo "Mouse caught in $host"
-	exit 0
+	echo "QUIT" | nc localhost $LISTY_PORT
+	exit 1
 }
 
 function terminate() {
-	kill $LISTY_PID
-	exit 0
+	echo "QUIT" | nc localhost $LISTY_PORT
+	exit 1
 }
 
 trap terminate INT
