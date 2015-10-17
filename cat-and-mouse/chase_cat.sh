@@ -14,12 +14,15 @@ TIMEOUT=1
 function got_mouse() {
 	# got the mouse
 	echo "G $HOSTNAME $MY_NAME" | nc $LISTY_LOCATION $LISTY_PORT
-	exit
+	exit 1
 }
 
 function attack_mouse() {
 	echo "MEOW" | nc localhost $MOUSE_PORT
-	sleep $WAIT_AFTER_ATTACK
+	# non-blocking wait/sleep for mouse to interrupt process
+	sleep $WAIT_AFTER_ATTACK &
+	wait
+	echo "Error! Something went wrong with the attack"
 }
 
 function search_for_mouse() {
