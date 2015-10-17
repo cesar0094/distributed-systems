@@ -10,7 +10,7 @@ do
 	if [[ "$message" == "MEOW" ]]; then
 		chase_cat_pid=$(pgrep -f "chase_cat.sh")
 		echo "They got me"
-		kill -9 $chase_cat_pid
+		kill -2 $chase_cat_pid
 		exit 1
 	fi
 
