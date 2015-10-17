@@ -35,13 +35,13 @@ function found_mouse() {
 	# If only one cat has found the mouse, we send the other to search
 	# Else, we know that the two cats found the mouse, so we attack
 	if [[ $who_found_mouse == "" ]]; then
+		who_found_mouse=cat_name
 		if [[ $cat_name == "Catty" ]]; then
 			send_cat_search $host "Jazzy"
 		elif [[ $cat_name  == "Jazzy" ]]; then
 			send_cat_search $host "Catty"
 		fi
 	else
-		who_found_mouse=cat_name
 		if [[ $cat_name == "Catty" ]]; then
 			send_cat_attack $host "Jazzy"
 		elif [[ $cat_name  == "Jazzy" ]]; then
