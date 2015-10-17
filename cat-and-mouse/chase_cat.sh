@@ -3,6 +3,8 @@
 LISTY_LOCATION=$(cat listy_location)
 HOSTNAME=$(hostname)
 WAIT_AFTER_ATTACK=8
+SEARCH_TIME=1
+ATTACK_TIME=1
 
 MY_NAME=$2
 ACTION=$1
@@ -39,13 +41,11 @@ function search_for_mouse() {
 
 trap got_mouse INT
 
-# searching a node takes some time
-# sleep $TASK_TIME
-sleep 1
-
 if [[ "$ACTION" == "S" ]]; then
+	sleep $SEARCH_TIME
 	search_for_mouse
 elif [[ "$ACTION" == "A" ]]; then
+	sleep $ATTACK_TIME
 	attack_mouse
 else
 	echo "Unknown action: '$ACTION'"

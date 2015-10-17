@@ -14,17 +14,16 @@ function send_cat() {
 	host=$1
 	cat_name=$2
 	action=$3
-	task_time=$4
 	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name $task_time"
+	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"
 }
 
 function send_cat_attack() {
-	send_cat $1 $2 "A" 6
+	send_cat $1 $2 "A"
 }
 
 function send_cat_search() {
-	send_cat $1 $2 "S" 12
+	send_cat $1 $2 "S"
 }
 
 function found_mouse() {
