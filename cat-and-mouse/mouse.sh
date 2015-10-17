@@ -1,29 +1,17 @@
 #!/bin/bash
 
-# PORT=8081
 PORT=$(cat nc_port_number)
 
-state="chilling"
+while true;
+do
 
-# first encounter
-echo "Foundme" | nc -l $PORT
+	message=$(nc -l $PORT)
 
-# second encounter
-echo "Foundme" | nc -l $PORT
+	if [[ "$message" == "MEOW" ]]; then
+		chase_cat_pid=$(pgrep -f "chase_cat.sh")
+		echo "They got me"
+		kill -9 $chase_cat_pid
+		exit 1
+	fi
 
-# attack encounter?
-echo "Gotme" | nc -l $PORT
-
-# nc -lk $PORT | while IFS=, read -a p
-# do
-
-# 	message=p[0]
-# 	if [[ message == "MEOW" ]]; then
-# 		if [[ $state == "chilling"]]; then
-# 			# send go away
-# 		elif [[ $state == "freaking out" ]]; then
-# 			# send SIG_INT?
-# 		fi
-# 	fi
-
-# done
+done
