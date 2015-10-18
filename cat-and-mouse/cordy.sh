@@ -18,6 +18,7 @@ function send_cat() {
 	action=$3
 
 	# Since we have limited number of cats, we make sure to only use that number
+	# a cat will be ready to go once it messages listy
 
 	# acquire resource (cat)
 	lockfile $cat_name".lock"
@@ -25,8 +26,6 @@ function send_cat() {
 	echo "Sending $cat_name to $host with action $action"
 	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"  &>/dev/null
 
-	# release resource
-	rm -f $cat_name".lock"
 }
 
 function send_cat_attack() {
@@ -131,10 +130,13 @@ while read line; do
 		host=$(echo $line | awk '{ print $2 }')
 		cat_name=$(echo $line | awk '{ print $3 }')
 
+		# release the cat resource
+		rm -f $cat_name".lock"
+
 		if [[ "$action" == "F" ]]; then
 			found_mouse $host $cat_name
 		elif [[ "$action" == "N" ]]; then
-			echo "Mouse not found in $host by $cat_name."
+			echo "Mouse not found in $host by $cat_name"
 			# only explore next host if the other cat hasn't found the mouse
 			if [[ "$who_found_mouse" == "" ]]; then
 				explore_next_host $host $cat_name
