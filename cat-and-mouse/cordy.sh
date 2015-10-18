@@ -24,10 +24,8 @@ function send_cat() {
 	lockfile $cat_name".lock"
 
 	echo "Sending $cat_name to $host with action $action"
-	ssh $host "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &>/dev/null
+	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"  &>/dev/null
 
-	# release the cat resource
-	rm -f $cat_name".lock"
 }
 
 function send_cat_attack() {
@@ -121,9 +119,8 @@ rm -f $NEXT_HOST_LOCK
 LISTY_PID=$!
 
 # start the cats
-explore_next_host S Jazzy &
-sleep 1
-explore_next_host S Catty &
+explore_next_host S Jazzy
+explore_next_host S Catty
 sleep 1
 
 # now we listen to cmsg file to see what to do next
@@ -138,13 +135,16 @@ while read line; do
 		host=$(echo $line | awk '{ print $2 }')
 		cat_name=$(echo $line | awk '{ print $3 }')
 
+		# release the cat resource
+		rm -f "$cat_name.lock"
+
 		if [[ "$action" == "F" ]]; then
-			found_mouse $host $cat_name &
+			found_mouse $host $cat_name
 		elif [[ "$action" == "N" ]]; then
 			echo "Mouse not found in $host by $cat_name"
 			# only explore next host if the other cat hasn't found the mouse
 			if [[ "$who_found_mouse" == "" ]]; then
-				explore_next_host $host $cat_name &
+				explore_next_host $host $cat_name
 			fi
 		elif [[ "$action" == "G" ]]; then
 			caught_mouse
