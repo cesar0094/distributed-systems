@@ -3,6 +3,8 @@
 WORKING_DIR="/cs/work/scratch/carodrig/distributed-systems/cat-and-mouse"
 SECONDS_PER_LINE=1
 PORT=$(cat nc_port_number)
+NEXT_HOST_FILE="next_host"
+NEXT_HOST_LOCK="next_host.lock"
 
 who_found_mouse=""
 
@@ -15,7 +17,7 @@ function send_cat() {
 	cat_name=$2
 	action=$3
 	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H ${host_list[$((next_host))]} -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"
+	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"
 }
 
 function send_cat_attack() {
@@ -53,8 +55,18 @@ function found_mouse() {
 function explore_next_host() {
 	explored_host=$1
 	cat_name=$2
+
+	# (LOCK) protect access to next host
+	lockfile $NEXT_HOST_LOCK
+
+	next_host=$(cat $NEXT_HOST_FILE)
 	another_host=$host_list[$((next_host))]
 	next_host=$((next_host+1))
+	echo next_host > $NEXT_HOST_FILE
+
+	# (UNLOCK)
+	rm -f $NEXT_HOST_LOCK
+
 	send_cat_search $another_host $cat_name
 }
 
