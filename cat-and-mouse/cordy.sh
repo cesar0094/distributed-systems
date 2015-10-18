@@ -94,6 +94,13 @@ fi
 # cmsg should be empty.
 rm cmsg; touch cmsg
 
+# (LOCK)
+lockfile $NEXT_HOST_LOCK
+# init next_host
+echo "0" > $NEXT_HOST_FILE
+# (UNLOCK)
+rm -f $NEXT_HOST_LOCK
+
 # start listy
 ./listy.sh &
 LISTY_PID=$!
