@@ -19,10 +19,11 @@ function send_cat() {
 
 	# Since we have limited number of cats, we make sure to only use that number
 	# a cat will be ready to go once it messages listy
-	echo "Send (when available) $cat_name to $host with action $action"
-	# first try and lock the cat, then do the action, but don't block the whole process
-	lockfile "$cat_name.lock" && parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &
 
+	# first try and lock the cat, then do the action, but don't block the whole process
+	lockfile "$cat_name.lock" && \
+	echo "Sending $cat_name to $host with action $action" && \
+	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &
 }
 
 function send_cat_attack() {
@@ -78,11 +79,13 @@ function explore_next_host() {
 function caught_mouse() {
 	echo "Mouse caught in $host"
 	echo "QUIT" | nc 127.0.0.1 $PORT
+	echo "QUIT" >> cmsg
 	exit 0
 }
 
 function terminate() {
 	echo "QUIT" | nc 127.0.0.1 $PORT
+	echo "QUIT" >> cmsg
 	exit 0
 }
 
@@ -147,7 +150,8 @@ while read line; do
 		elif [[ "$action" == "G" ]]; then
 			caught_mouse
 		fi
-
+	elif [[ "$line" == "QUIT" ]]; then
+		break
 	else
 		echo "Unable to parse message: '$line'"
 	fi
