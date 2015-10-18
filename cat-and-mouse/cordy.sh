@@ -60,7 +60,7 @@ function explore_next_host() {
 	lockfile $NEXT_HOST_LOCK
 
 	next_host=$(cat $NEXT_HOST_FILE)
-	another_host=$host_list[$((next_host))]
+	another_host=${host_list[$((next_host))]}
 	next_host=$((next_host+1))
 	echo "$next_host" > $NEXT_HOST_FILE
 
