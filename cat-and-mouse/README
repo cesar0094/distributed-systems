@@ -1,0 +1,14 @@
+Before executing, run:
+
+	./setup.sh
+
+To setup dependency files. Select a node from `hosts` for the mouse and run:
+
+	./mouse.sh
+
+The, to run Cordy:
+
+	./cordy.sh
+
+Cordy assumes that the mouse is ran in the `hosts` file. Make sure that the node running Cordy
+is not in the list.
