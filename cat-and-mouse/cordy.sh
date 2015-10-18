@@ -62,7 +62,7 @@ function explore_next_host() {
 	next_host=$(cat $NEXT_HOST_FILE)
 	another_host=$host_list[$((next_host))]
 	next_host=$((next_host+1))
-	echo next_host > $NEXT_HOST_FILE
+	echo "$next_host" > $NEXT_HOST_FILE
 
 	# (UNLOCK)
 	rm -f $NEXT_HOST_LOCK
