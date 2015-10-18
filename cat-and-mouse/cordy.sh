@@ -5,6 +5,8 @@ SECONDS_PER_LINE=1
 PORT=$(cat nc_port_number)
 NEXT_HOST_FILE="next_host"
 NEXT_HOST_LOCK="next_host.lock"
+CATTY_LOCK="catty.lock"
+JAZZY_LOCK="jazzy.lock"
 
 who_found_mouse=""
 
@@ -106,6 +108,7 @@ rm -f $NEXT_HOST_LOCK
 LISTY_PID=$!
 
 explore_next_host S Jazzy &
+sleep 1
 explore_next_host S Catty &
 
 # now we listen to cmsg file to see what to do next
