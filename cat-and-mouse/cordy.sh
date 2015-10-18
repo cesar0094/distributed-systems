@@ -60,12 +60,12 @@ function explore_next_host() {
 
 function caught_mouse() {
 	echo "Mouse caught in $host"
-	echo "QUIT" | nc 127.0.0.1 $LISTY_PORT
+	echo "QUIT" | nc 127.0.0.1 $PORT
 	exit 1
 }
 
 function terminate() {
-	echo "QUIT" | nc 127.0.0.1 $LISTY_PORT
+	echo "QUIT" | nc 127.0.0.1 $PORT
 	exit 1
 }
 
