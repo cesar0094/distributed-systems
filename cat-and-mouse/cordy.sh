@@ -29,7 +29,7 @@ function send_cat_search() {
 }
 
 function found_mouse() {
-	host=$1
+	host=$1".hpc.cs.helsinki.fi"
 	cat_name=$2
 	echo "Found mouse in $host by $cat_name"
 
