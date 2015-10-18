@@ -21,7 +21,7 @@ function send_cat() {
 	# a cat will be ready to go once it messages listy
 	echo "Send (when available) $cat_name to $host with action $action"
 	# first try and lock the cat, then do the action, but don't block the whole process
-	lockfile "$cat_name.lock" && parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &  # &>/dev/null
+	lockfile "$cat_name.lock" && parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &
 
 }
 
