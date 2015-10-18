@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKING_DIR="/cs/work/scratch/carodrig/distributed-systems/cat-and-mouse"
+WORKING_DIR=$(pwd)
 SECONDS_PER_LINE=4
 PORT=$(cat nc_port_number)
 NEXT_HOST_FILE="next_host"
@@ -19,12 +19,9 @@ function send_cat() {
 
 	# Since we have limited number of cats, we make sure to only use that number
 	# a cat will be ready to go once it messages listy
-
-	# acquire resource (cat)
-	lockfile $cat_name".lock"
-
-	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"  &>/dev/null
+	echo "Send (when available) $cat_name to $host with action $action"
+	# first try and lock the cat, then do the action, but don't block the whole process
+	lockfile "$cat_name.lock" && parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name" &  # &>/dev/null
 
 }
 
@@ -120,6 +117,7 @@ LISTY_PID=$!
 
 # start the cats
 explore_next_host S Jazzy
+sleep 1
 explore_next_host S Catty
 sleep 1
 
