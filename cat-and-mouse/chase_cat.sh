@@ -16,7 +16,7 @@ TIMEOUT=1
 function got_mouse() {
 	# got the mouse
 	echo "G $HOSTNAME $MY_NAME" | nc $LISTY_LOCATION $LISTY_PORT
-	exit 1
+	exit 0
 }
 
 function attack_mouse() {
