@@ -101,6 +101,11 @@ if [[ "$process_in_port" != "" ]]; then
 	exit
 fi
 
+# release all locks
+rm -f "Catty.lock"
+rm -f "Jazzy.lock"
+rm -f $NEXT_HOST_LOCK
+
 # cmsg should be empty.
 rm cmsg; touch cmsg
 
