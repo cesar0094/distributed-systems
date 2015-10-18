@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORKING_DIR="/cs/work/scratch/carodrig/distributed-systems/cat-and-mouse"
-SECONDS_PER_LINE=1
+SECONDS_PER_LINE=4
 PORT=$(cat nc_port_number)
 NEXT_HOST_FILE="next_host"
 NEXT_HOST_LOCK="next_host.lock"
@@ -23,7 +23,7 @@ function send_cat() {
 	lockfile $cat_name".lock"
 
 	echo "Sending $cat_name to $host with action $action"
-	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"
+	parallel-ssh -H $host -i "cd $WORKING_DIR; ./chase_cat.sh $action $cat_name"  &>/dev/null
 
 	# release resource
 	rm -f $cat_name".lock"
